@@ -18,6 +18,7 @@ function App() {
 
         <Route path="/" element={<Layout />}>
           <Route index element={<ArtigosPage />} />
+          
           <Route path="/artigo/:id" element={<ArtigoPage />} />
           <Route path="/artigos" element={<MeusArtigosPage />} />
           <Route path="/artigos/editar/:id" element={<EditarArquivoPage />} />
