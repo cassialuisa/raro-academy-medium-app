@@ -50,7 +50,9 @@ export const ArticleThumbnail: React.FC<ArticleThumbnailProps> = ({
         </div>
         {
           editavel && (
+            <Link to = {`/artigos/editar/${id}`}>
             <button
+              
               className={
                 `
                 hover:bg-blue-400 bg-blue-300 text-white
@@ -61,6 +63,7 @@ export const ArticleThumbnail: React.FC<ArticleThumbnailProps> = ({
             >
               Editar
             </button>
+            </Link>
           )
         }
       </footer>
