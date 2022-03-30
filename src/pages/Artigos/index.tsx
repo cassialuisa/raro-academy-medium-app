@@ -7,9 +7,14 @@ export const ArtigosPage = () => {
   const [articles, setArticles] = useState<ArticleThumbnailProps[]>([]);
 
   useEffect(() => {
-    setArticles(geraArtigos(10));
+    setArticles(geraArtigos(5));
   }, []);
 
+  if (geraArtigos(0)) {
+    <div >
+      <h1>Ainda não temos artigos publicados</h1>
+    </div>
+  }
   return (
     <div className="my-30">
       <ArticleList
