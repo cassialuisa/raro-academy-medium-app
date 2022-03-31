@@ -3,6 +3,7 @@ import { ArticleThumbnailProps } from '../../components/ArticleThumbnail/Article
 
 export const geraArtigos = (quantidade: number): ArticleThumbnailProps[] => {
   return Array.from(new Array(quantidade)).map(() => ({
+
     imagem: faker.image.imageUrl(),
     titulo: faker.lorem.sentence(),
     resumo: faker.lorem.paragraph(),
@@ -11,6 +12,7 @@ export const geraArtigos = (quantidade: number): ArticleThumbnailProps[] => {
     autor: {
       nome: faker.name.firstName(),
       avatar: faker.image.avatar(),
-    }
+    },
+    id: faker.datatype.number({ min: 1, max: 999999999999 })
   }));
 }
