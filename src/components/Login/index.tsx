@@ -5,23 +5,42 @@ import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  const [login, setLogin] = useState("");
-  const [senha, setSenha] = useState("");
+  const [login, setLogin] = useState('');
+  const [senha, setSenha] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState('')
   const navigate = useNavigate();
 
   async function autenticaUsuario(event: React.FormEvent<HTMLFormElement>) {
 
     //essa função impede que o form execute seu comportamento padrão de submit > reload. 
     //deve ser aplicada ao form por completo e não ao botão de submit. 
-    event.preventDefault();
-    const url = `http://3.221.159.196:3307/auth/login`;
-    const response = await axios.post(url,{ login, senha });
 
-    const { access_token, id } = response.data;
+    event.preventDefault();
+    setErro('');
+    setLoading(true);
+
+    try {
+      const url = `http://3.221.159.196:3307/auth/login`;
+      const response = await axios.post(url, { login, senha });
+
+      const { access_token, id } = response.data;
       if (access_token) {
-    navigate("/artigos");
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("id", id);
+        navigate("/artigos");
       }
+    } catch (error: any) {
+      if (error.response.data.statusCode === 401) {
+        setErro('Usuário ou senha Inválidos');
+      } else {
+        setErro('Erro ao autenticar usuário. Tente novamente mais tarde.');
+      }
+    }
+    setLoading(false);
   }
+
+
 
   return (
     <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -59,9 +78,20 @@ export const Login = () => {
               />
             </div>
           </div>
-          <div>
 
-            <Button type="submit">Login</Button>
+          {
+            erro ? (
+              <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                {erro}
+              </span>
+            ) : <></>
+          }
+          
+          <div>
+            <Button
+              disabled={loading}
+              type="submit"
+            >{loading ? 'Carregando...' : 'Entrar'}</Button>
           </div>
         </form>
       </div>
