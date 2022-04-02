@@ -17,6 +17,7 @@ export const ArticleForm = () => {
             name="titulo"
             label="Titulo"
             required
+            value=""
           />
           <Input
             placeholder="Breve rewsumo do artigo"
@@ -24,6 +25,7 @@ export const ArticleForm = () => {
             name="resumo"
             label="Resumo"
             required
+            value=""
           />
 
           <Input
@@ -32,6 +34,7 @@ export const ArticleForm = () => {
             name="image"
             label="Banner"
             required
+            value=""
           />
 
           <RitchTextEditor
