@@ -12,14 +12,16 @@ export const ArtigosPage = () => {
     setArticles(geraArtigos(10));
   }, []);
 
-  if (geraArtigos(0)) {
-    <div >
-      <SemArtigos/>
-    </div>
+  if (articles.length === 0) {
+    return (
+      <div >
+        <SemArtigos />
+      </div>
+    )
   }
   return (
     <div className="my-30">
-      //<ArticleList
+      <ArticleList
         articles={articles}
       />
     </div>
