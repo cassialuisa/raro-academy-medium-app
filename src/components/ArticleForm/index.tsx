@@ -42,8 +42,9 @@ export const ArticleForm: React.FC<ArticleFormProps> = ({
         imagem,
         conteudo,
       };
-      onSubmit(articleToSubmit as ArticleThumbnailProps)
+      onSubmit(articleToSubmit as ArticleThumbnailProps);
     }
+    navigate('/artigos')
   }
   const transformaImagemEmBase64 = (event: any) => {
     const file = event.target.files[0];
