@@ -19,11 +19,12 @@ export const ArtigosPage = () => {
   }, []);
 
   if (articles.length === 0) {
-    return(
-    <div >
-      <SemArtigos />
-    </div>
-    )}
+    return (
+      <div >
+        <SemArtigos />
+      </div>
+    )
+  }
   return (
     <div className="my-30">
       <ArticleList
