@@ -1,15 +1,39 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ActivableLink } from '../ActivableLinks';
 
-//por último, não temos os itens de menu que nos direcionam para a tela de login, 
-//quando o usuário não está autenticado. Nem o botão de logout, para quando o usuário está logado. 
-//Por agora, basta criar ambos, e deixa-los disponíveis na nossa lista.
+
 export const Navigation = () => {
-  return (
+
+  const [isAuthenticated, setAuthenticated] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setAuthenticated(localStorage.getItem("access_token") !== null);
+  }, []);
+
+  function logout() {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("id");
+    setAuthenticated(false);
+    navigate('/');
+  }
+
+  if (!isAuthenticated) {
+    return (
       <>
-        <Link to="/">Home</Link>
-        <Link to="/artigos">Meus Artigos</Link>
-        <Link to="/artigos/novo">Novo Artigo</Link>
-        <Link to="/Login">Login</Link>
+        <ActivableLink to="/">Home</ActivableLink>
+        <ActivableLink to="/login">Login</ActivableLink>
       </>
+    );
+  }
+
+  return (
+    <>
+      <ActivableLink to="/">Home</ActivableLink>
+      <ActivableLink to="/artigos">Meus Artigos</ActivableLink>
+      <ActivableLink to="/artigos/novo">Novo Artigo</ActivableLink>
+      <ActivableLink to="/" type="button" onClick={logout}>Sair</ActivableLink>
+    </>
   );
-};
+}
