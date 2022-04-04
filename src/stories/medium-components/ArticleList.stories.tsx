@@ -1,6 +1,5 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { ArticleList } from '../../components/ArticleList';
-import { geraArtigos } from '../helpers/gerador-artigos';
 
 export default {
   title: 'Medium/ArticleList',
@@ -10,6 +9,4 @@ export default {
 
 const Template: ComponentStory<typeof ArticleList> = (args) => <ArticleList {...args} />;
 export const DefaultArticleListView = Template.bind({});
-DefaultArticleListView.args = {
-  articles: geraArtigos(10)
-};
+DefaultArticleListView.args = {}
