@@ -3,6 +3,7 @@ import { Input } from "../Input";
 import { useState } from 'react';
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import apiClient from "../../Services/api-client";
 
 export const Login = () => {
   const [login, setLogin] = useState('');
@@ -21,8 +22,11 @@ export const Login = () => {
     setLoading(true);
 
     try {
-      const url = `http://3.221.159.196:3307/auth/login`;
-      const response = await axios.post(url, { login, senha });
+      const url = '/auth/login';
+      const response = await apiClient.post(
+        url,
+        { login, senha }
+      );
 
       const { access_token, id } = response.data;
       if (access_token) {
@@ -86,7 +90,7 @@ export const Login = () => {
               </span>
             ) : <></>
           }
-          
+
           <div>
             <Button
               disabled={loading}
