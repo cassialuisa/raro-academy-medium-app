@@ -1,15 +1,18 @@
 import React from "react";
 
 export type ButtonProps = {
+  disabled?:boolean,
   type: "button" | "submit" | "reset" | undefined;
 };
 
 export const Button: React.FC<ButtonProps> = ({
+  disabled,
   type,
   children,
 }) => {
   return (
     <button
+      disabled={ disabled }
       type={ type }
       className={`
         w-full mt-6 tracking-widest

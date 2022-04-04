@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import Editor from "react-markdown-editor-lite";
 import { Link } from "react-router-dom";
 import { formataData } from "../../helpers/date";
 import { ArticleThumbnailProps } from "./ArticleThumbnail.types";
+
 
 export const ArticleThumbnail: React.FC<ArticleThumbnailProps> = ({
   imagem,
@@ -10,20 +13,26 @@ export const ArticleThumbnail: React.FC<ArticleThumbnailProps> = ({
   dataPublicacao,
   tempoLeitura = '7 min',
   autor,
-  editavel,
   id
 }) => {
-  return (
 
+  const [editavel, setEditavel] = useState(false);
+  useEffect(() => {
+    const usuarioAtual = Number(localStorage.getItem('id'));
+    setEditavel(autor?.id === usuarioAtual );
+  }, [autor]);
+  
+  return (
+    
     <div className="flex flex-col w-2/3 mt-5">
       <Link to={`/artigo/${id}`}>
         <header className="flex flex-row gap-3 items-center">
           <img
-            src={autor.avatar}
+            src={autor?.avatar}
             className="rounded-full"
             style={{ width: '30px', height: '30px' }}
           />
-          <div>{autor.nome}</div>
+          <div>{autor?.nome}</div>
           <div className="text-sm text-gray-500">{formataData(dataPublicacao)}</div>
         </header>
         <div className="grid grid-cols-4 gap-3">

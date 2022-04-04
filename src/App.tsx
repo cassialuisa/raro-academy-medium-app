@@ -8,7 +8,7 @@ import { EditarArquivoPage } from './pages/EditarArquivo';
 import { MeusArtigosPage } from './pages/MeusArtigos';
 import { ArtigoPage } from './pages/Artigo';
 import { Layout } from './components/Layout';
-//<Link to={`/artigo/${id}`}>
+
 function App() {
   return (
 
