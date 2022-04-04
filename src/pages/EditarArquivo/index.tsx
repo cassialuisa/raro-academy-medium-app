@@ -1,11 +1,11 @@
 import { ArticleForm } from "../../components/ArticleForm";
 import { useEffect, useState } from "react";
 import { ArticleThumbnailProps } from "../../components/ArticleThumbnail/ArticleThumbnail.types";
-import axios from 'axios';
 import { useParams } from "react-router-dom";
+import apiClient from "../../Services/api-client";
 
 export const EditarArquivoPage = () => {
-  const [ artigo, setArtigo ] = useState<ArticleThumbnailProps>();
+  const [artigo, setArtigo] = useState<ArticleThumbnailProps>();
   const { id } = useParams();
 
   useEffect(() => {
@@ -13,24 +13,43 @@ export const EditarArquivoPage = () => {
       buscarArtigo();
     }
   }, [id]);
+
   async function buscarArtigo() {
-    const token = localStorage.getItem("access_token");
-    const response = await axios.get<ArticleThumbnailProps>(
-      `http://3.221.159.196:3307/artigos/${id}`,
-      {
-        headers: {
-          'Authorization': `bearer ${token}`
-        }
-      }
+    const response = await apiClient.get<ArticleThumbnailProps>(
+      `/artigos/${id}`
     );
 
     setArtigo(response.data);
   }
-
+  const handleSubmit = async (artigo: ArticleThumbnailProps) => {
+    if (artigo.id) {
+      const response = await apiClient.patch<ArticleThumbnailProps>(
+        `/artigos/${artigo.id}`,
+        {
+          'titulo': artigo.titulo,
+          'imagem': artigo.imagem,
+          'resumo': artigo.resumo,
+          'conteudo': artigo.conteudo
+        }
+      )
+    } else {
+      const response = await apiClient.post<ArticleThumbnailProps>(
+        '/artigos',
+        {
+          'titulo': artigo.titulo,
+          'imagem': artigo.imagem,
+          'resumo': artigo.resumo,
+          'conteudo': artigo.conteudo
+        }
+      )
+    }
+  }
   return (
     <>
       <div className="items-center justify-center m-10">
-        <ArticleForm />
+        <ArticleForm
+          article={artigo}
+          onSubmit={handleSubmit} />
       </div>
     </>
   );
