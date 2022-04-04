@@ -13,7 +13,7 @@ export const MeusArtigosPage = () => {
     const response = await apiClient.get<ArticleThumbnailProps[]>(
       '/artigos/meus-artigos'
     )
-    console.log(response.data)
+    // console.log(response.data)
     setArticles(response.data);
   }
 
