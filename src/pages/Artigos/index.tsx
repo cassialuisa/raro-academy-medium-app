@@ -1,25 +1,32 @@
 import { useEffect, useState } from "react";
 import { ArticleList } from "../../components/ArticleList";
 import { ArticleThumbnailProps } from "../../components/ArticleThumbnail/ArticleThumbnail.types";
-import { geraArtigos } from "../../stories/helpers/gerador-artigos";
 import { SemArtigos } from "../../components/SemArtigos";
+import apiClient from "../../Services/api-client";
 
 
 export const ArtigosPage = () => {
   const [articles, setArticles] = useState<ArticleThumbnailProps[]>([]);
 
+  async function buscarArtigos() {
+    const response = await apiClient.get<ArticleThumbnailProps[]>(
+      `/artigos`
+    );
+    setArticles(response.data)
+  }
   useEffect(() => {
-    setArticles(geraArtigos(10));
+    buscarArtigos();
   }, []);
 
-  if (geraArtigos(0)) {
+  if (articles.length === 0) {
+    return(
     <div >
-      <SemArtigos/>
+      <SemArtigos />
     </div>
-  }
+    )}
   return (
     <div className="my-30">
-      //<ArticleList
+      <ArticleList
         articles={articles}
       />
     </div>
