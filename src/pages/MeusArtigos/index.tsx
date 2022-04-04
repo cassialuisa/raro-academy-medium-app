@@ -2,23 +2,18 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { ArticleList } from "../../components/ArticleList";
 import { ArticleThumbnailProps } from "../../components/ArticleThumbnail/ArticleThumbnail.types";
-
-// import { geraArtigos } from "../../stories/helpers/gerador-artigos";
+import apiClient from "../../Services/api-client";
+import { SemArtigos } from "../../components/SemArtigos";
 
 export const MeusArtigosPage = () => {
   const [articles, setArticles] = useState<ArticleThumbnailProps[]>([]);
 
   async function buscaMeusArtigos() {
     
-    const token = localStorage.getItem('access_token');
-    const response = await axios.get<ArticleThumbnailProps[]>(
-      'http://3.221.159.196:3307/artigos/meus-artigos',
-      {
-        headers: {
-          'Authorization': `bearer ${token}`
-        }
-      }
-    );
+    const response = await apiClient.get<ArticleThumbnailProps[]>(
+      '/artigos/meus-artigos'
+    )
+    console.log(response.data)
     setArticles(response.data);
   }
 
@@ -26,7 +21,13 @@ export const MeusArtigosPage = () => {
     buscaMeusArtigos();
   }, []);
 
-
+  if (articles.length === 0) {
+    return(
+    <div >
+      <SemArtigos />
+    </div>
+    )
+  }
   return (
     <div className="my-30">
       <ArticleList articles={articles} />
